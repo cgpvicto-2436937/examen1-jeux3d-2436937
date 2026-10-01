@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Splines.ExtrusionShapes;
 
 /// <summary>
 /// Objet représentant une boule contrôlée par le joueur.
@@ -19,6 +23,14 @@ public class Boule : MonoBehaviour
 
     // Référence au Rigidbody de la boule pour appliquer la physique.
     private Rigidbody rigidbody;
+
+    // Nombre de charge de boost
+    private int nombreCharge;
+
+    private float boost = 15;
+
+    [SerializeField]
+    private TMP_Text textBoost;
 
     /// <summary>
     /// Obtient la vélocité actuelle de la boule.
@@ -50,6 +62,16 @@ public class Boule : MonoBehaviour
         {
             cibleCamera.position = rigidbody.position;
         }
+
+        if (Keyboard.current.spaceKey.isPressed)
+        {
+            rigidbody.useGravity = true;
+            ControleurJeu.Instance.Controles.actions.FindAction("Diriger").performed += CommencerDirection;
+        }
+
+        StartCoroutine(Boost());
+
+        MettreAJourInterface();
     }
 
     private void FixedUpdate()
@@ -72,6 +94,38 @@ public class Boule : MonoBehaviour
         if(!Mathf.Approximately(forceAppliquee.sqrMagnitude, 0.0f))
         {
             rigidbody.AddForce(forceAppliquee, ForceMode.Force);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Boost"))
+        {
+            if (nombreCharge < 3)
+            {
+                nombreCharge++;
+            }
+        }
+    }
+
+    private void MettreAJourInterface()
+    {
+        if (textBoost != null)
+        {
+            textBoost.text = "Boost : " + nombreCharge;
+        }
+    }
+
+    private IEnumerator Boost()
+    {
+        if (Keyboard.current.wKey.isPressed)
+        {
+            if (nombreCharge > 0)
+            {
+                rigidbody.AddForce(this.transform.forward * boost, ForceMode.Acceleration);
+                nombreCharge--;
+                yield return new WaitForSecondsRealtime(1);
+            }
         }
     }
 }

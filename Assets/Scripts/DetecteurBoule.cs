@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -16,8 +17,10 @@ public class DetecteurBoule : MonoBehaviour
     /// </summary>
     public event System.Action BouleSortie;
 
+
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag("Boule"))
         {
             BouleEntree?.Invoke();

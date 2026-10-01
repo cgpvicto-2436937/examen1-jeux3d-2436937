@@ -15,6 +15,16 @@
                     "interactions": "",
                     "initialStateCheck": true,
                     "priority": 0
+                },
+                {
+                    "name": "Commencer",
+                    "type": "Button",
+                    "id": "1ae45da8-ffee-4b30-a8b8-981acd8d25e6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -50,6 +60,17 @@
                     "action": "Diriger",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0086de45-9188-4edf-add8-6d731a13f639",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Commencer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
